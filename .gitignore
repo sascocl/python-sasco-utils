@@ -1,0 +1,5 @@
+dist
+sasco_utils.egg-info/
+sasco_utils/__pycache__
+sasco_utils/*.pyc
+
