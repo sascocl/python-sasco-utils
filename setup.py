@@ -36,7 +36,7 @@ setup(
     name='sasco_utils',
 
     # Versions should comply with PEP440
-    version='0.0.1',
+    version='0.0.2',
 
     description='Python module with utils used in SASCO company',
     long_description="\n"+long_description,
