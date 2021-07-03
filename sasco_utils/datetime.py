@@ -60,6 +60,39 @@ def period_last_day(period):
     last_day_object = first_day_next_period_object - timedelta(days=1)
     return last_day_object.strftime('%Y-%m-%d')
 
+def period_valid(period, year_from = 2000, year_to = 2100):
+    try:
+        int(period)
+    except ValueError:
+        return False
+    period = str(period)
+    n_period = len(period)
+    if n_period == 4:
+        period = int(period)
+        return period >= year_from and period <= year_to
+    elif n_period == 6:
+        year = int(period[0:4])
+        month = int(period[4:])
+        return year >= year_from and year <= year_to and month >= 1 and month <= 12
+    else:
+        return False
+
+def date_normalize(date, format_from = None, format_to = None):
+    if format_from is None:
+        aux = date.split(' ')
+        if len(aux) == 2:
+            if len(aux[1]) == 5:
+                format_from = '%d/%m/%Y %H:%M'
+                format_to = '%Y-%m-%d %H:%M'
+            else:
+                format_from = '%d/%m/%Y %H:%M:%S'
+                format_to = '%Y-%m-%d %H:%M:%S'
+        else:
+            format_from = '%d/%m/%Y'
+            format_to = '%Y-%m-%d'
+    date_obj = datetime.strptime(date, format_from)
+    return date_obj.strftime(format_to)
+
 def date_add_days(days, from_date = None):
     if from_date is None:
         from_date = str(date.today().strftime('%Y-%m-%d'))
@@ -75,3 +108,21 @@ def date_count_days(date_from, date_to = None):
     y_to, m_to, d_to = str(date_to).split(' ')[0].split('-')
     delta = date(int(y_to), int(m_to), int(d_to)) - date(int(y_from), int(m_from), int(d_from))
     return delta.days if delta.days >= 0 else delta.days * -1
+
+def month_from_string(month):
+    month_lower = month.lower()
+    months = {
+        'enero': '01',
+        'febrero': '02',
+        'marzo': '03',
+        'abril': '04',
+        'mayo': '05',
+        'junio': '06',
+        'julio': '07',
+        'agosto': '08',
+        'septiembre': '09',
+        'octubre': '10',
+        'noviembre': '11',
+        'diciembre': '12',
+    }
+    return months[month_lower] if month_lower in months else month
